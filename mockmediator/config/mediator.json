@@ -6,7 +6,7 @@
   "defaultChannelConfig": [
     {
       "name": "Mock Mediator",
-      "urlPattern": "channelPath",
+      "urlPattern": "/encounters/.*",
       "alerts": [],
       "txRerunAcl": [],
       "txViewFullAcl": [],
@@ -22,7 +22,7 @@
           "type": "http"
         }
       ],
-      "allow": ["admin"],
+      "allow": ["tut"],
       "type": "http"
     }
   ],
