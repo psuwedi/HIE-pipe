@@ -4,6 +4,7 @@
 const express = require('express')
 const medUtils = require('openhim-mediator-utils')
 const winston = require('winston')
+const needle = require('needle')
 
 const utils = require('./utils')
 
@@ -25,25 +26,104 @@ var port = process.env.NODE_ENV === 'test' ? 7001 : mediatorConfig.endpoints[0].
  */
 function setupApp () {
   const app = express()
+  
 
-  app.all('*', (req, res) => {
-    winston.info(`Processing ${req.method} request on ${req.url}`)
-    var responseBody = 'Primary Route Reached'
-    var headers = { 'content-type': 'application/json' }
+  app.get('/encounters/:id', (req, res) => {
 
-    // add logic to alter the request here
+    //send and HTTP request to the Health Record service
+    needle.get('http://localhost:3444/encounters/'+req.params.id, function(err, resp){
 
-    // capture orchestration data
-    var orchestrationResponse = { statusCode: 200, headers: headers }
-    let orchestrations = []
-    orchestrations.push(utils.buildOrchestration('Primary Route', new Date().getTime(), req.method, req.url, req.headers, req.body, orchestrationResponse, responseBody))
+      winston.info(`Processing ${req.method} request on ${req.url}`)
+      var responseBody = 'Primary Route Reached'
+      var headers = { 'content-type': 'application/json' }
+  
+      // add logic to alter the request here
+  
+      // capture orchestration data
+      var orchestrationResponse = { statusCode: 200, headers: headers }
+      let orchestrations = []
+      orchestrations.push(utils.buildOrchestration('Primary Route', new Date().getTime(), req.method, req.url, req.headers, req.body, orchestrationResponse, responseBody))
+  
+      // set content type header so that OpenHIM knows how to handle the response
+      res.set('Content-Type', 'application/json+openhim')
+  
+      // construct return object
+      var properties = { property: 'Primary Route' }
+      res.send(utils.buildReturnObject(mediatorConfig.urn, 'Successful', 200, headers, responseBody, orchestrations, properties))
 
-    // set content type header so that OpenHIM knows how to handle the response
-    res.set('Content-Type', 'application/json+openhim')
+      if(err){
 
-    // construct return object
-    var properties = { property: 'Primary Route' }
-    res.send(utils.buildReturnObject(mediatorConfig.urn, 'Successful', 200, headers, responseBody, orchestrations, properties))
+        console.log(err)
+        return;
+      }
+      
+      var ctxObject = {};
+      ctxObject['encounter'] = resp.body;
+
+
+      //capture 'encounter' orchestration data
+
+      orchestrationResults = [];
+      orchestrationResults.push({
+        name: 'Get Encounter',
+        request: {
+          path: req.path,
+          headers: req.headers,
+          queryString: req.originalUrl.replace(req.path, ""),
+          body: req.body,
+          methos: req.method,
+          timestamp: new Date().getTime()
+        },
+        response: {
+          status: resp.statusCode,
+          body: JSON.stringify(resp.body, null, 4),
+          timestamp: new Date().getTime()
+        }
+      });
+
+/* ###################################### */
+/* ##### Construct Response Object  ##### */
+/* ###################################### */
+
+
+
+    })
+
+    var urn = mediatorConfig.urn;
+    var status = 'Successful';
+    var response = {
+      status: resp.statusCode,
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(resp.body, null, 4),
+      timestamp: new Date().getTime()
+    };
+
+  // Construct property data to be returned - this can be anything we want to make available in the core.
+
+  var properties = {};
+  properties[ctxObject.encounter.observations[0].obsType] = ctxObject.encounter.observations[0].obsValue + ctxObject.encounter.observations[0].obsUnit;
+  properties[ctxObject.encounter.observations[1].obsType] = ctxObject.encounter.observations[1].obsValue + ctxObject.encounter.observations[1].obsUnit;
+  properties[ctxObject.encounter.observations[2].obsType] = ctxObject.encounter.observations[2].obsValue + ctxObject.encounter.observations[2].obsUnit;
+  properties[ctxObject.encounter.observations[3].obsType] = ctxObject.encounter.observations[3].obsValue + ctxObject.encounter.observations[3].obsUnit;
+  properties[ctxObject.encounter.observations[4].obsType] = ctxObject.encounter.observations[4].obsValue + ctxObject.encounter.observations[4].obsUnit;
+  properties[ctxObject.encounter.observations[5].obsType] = ctxObject.encounter.observations[5].obsValue + ctxObject.encounter.observations[5].obsUnit;
+
+
+
+  // construct returnObject to be returned
+
+  var returnObject = {
+    'x-mediator-urn': urn,
+    'status': status,
+    'orchestrations':orchestrationResults,
+    'response': response,
+    'properties': properties
+  };
+
+  
+ 
   })
   return app
 }
