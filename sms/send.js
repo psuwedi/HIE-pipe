@@ -8,7 +8,7 @@ const nexmo = new Nexmo({
 })
 
 const from = "OpenHIM"
-const to = "2659943331"
+const to = "265994333331" // You can use any valid phone number here!
 const text = "Some aggregate data here..."
 
 nexmo.message.sendSms(from, to, text, (err, responseData) => {
