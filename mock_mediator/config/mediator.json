@@ -1,0 +1,51 @@
+{
+  "urn": "urn:uuid:ca41c830-54c5-11e9-a501-176e99b68be7",
+  "version": "0.2.0",
+  "name": "Mock Mediator",
+  "description": "This is a mock mediator for testing",
+  "defaultChannelConfig": [
+    {
+      "name": "Mock Mediator",
+      "urlPattern": "/encounters/.*",
+      "alerts": [],
+      "txRerunAcl": [],
+      "txViewFullAcl": [],
+      "txViewAcl": [],
+      "properties": [],
+      "matchContentTypes": [],
+      "routes": [
+        {
+          "name": "Mock Mediator Route",
+          "host": "localhost",
+          "port": "4000",
+          "primary": true,
+          "type": "http"
+        }
+      ],
+      "allow": ["tut"],
+      "type": "http"
+    }
+  ],
+  "endpoints": [
+    {
+      "name": "Mock Mediator Route",
+      "host": "localhost",
+      "path": "/",
+      "port": "4000",
+      "primary": true,
+      "type": "http"
+    }
+  ],
+  "configDefs": [
+    {
+      "param": "upstreamUrl",
+      "displayName": "Upstream URL",
+      "description": "The URL of the service upstream of the mediator",
+      "type": "string",
+      "template": []
+    }
+  ],
+  "config": {
+    "upstreamUrl": "http://sampleApplication:7001"
+  }
+}
