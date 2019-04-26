@@ -3,6 +3,7 @@
   var app, express, provider, providers, server;
 
   express = require("express");
+  resolve = require('../resolve/index.js');
 
   providers = {
     1: {
@@ -30,6 +31,7 @@
   app.get("/providers/:id", provider);
 
   server = app.listen(process.env.PORT || 3446, function() {
+    // resolve('http','localhost','3446','providers',1);
     return console.log("healthcare-worker-service running on port " + (server.address().port));
   });
 
