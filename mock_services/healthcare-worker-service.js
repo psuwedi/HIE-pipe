@@ -5,6 +5,8 @@
   express = require("express");
   resolve = require('../resolve/index.js');
 
+  //Sample data objects for providers 
+
   providers = {
     1: {
       providerId: 1,
@@ -30,8 +32,16 @@
 
   app.get("/providers/:id", provider);
 
+  //Handle 500
+  app.get('/error500/:id', function(req, res, next) {
+    res.status(500);
+    resolve('http','localhost','3446','error500',1);
+    res.send('Internal server error...');
+  });
+  
+
+
   server = app.listen(process.env.PORT || 3446, function() {
-    // resolve('http','localhost','3446','providers',1);
     return console.log("healthcare-worker-service running on port " + (server.address().port));
   });
 

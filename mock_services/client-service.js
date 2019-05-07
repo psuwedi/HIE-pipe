@@ -4,6 +4,7 @@
 
   express = require("express");
 
+//Sample data objects for clients/patients
   patients = {
     1: {
       patientId: 1,
