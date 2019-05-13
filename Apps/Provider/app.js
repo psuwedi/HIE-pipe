@@ -1,11 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 
 const provider = require('./routes/provider.routes');
 
 //initialize  express
 const app = express();
+
+app.use(express.static(path.join(__dirname, 'views/templates')));
+app.set('view engine', 'pug');
+app.set('views', 'views/templates');
 
 //enable CORS
 app.use(cors());
@@ -24,6 +29,10 @@ db.on('error', console.error.bind(console, 'Could not connect to MongoDB:'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/providers', provider);
+
+app.get('/', function (req, res) {
+    res.render('index')
+  })
 
 let port = 3446;
 

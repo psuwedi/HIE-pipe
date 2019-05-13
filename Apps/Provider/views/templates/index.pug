@@ -1,0 +1,73 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+  meta(name='description' content='Index page ')
+  meta(name='author' content='Phidelis Suwedi')
+  title Client Service
+  // Compiled and minified CSS
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css')
+  link(rel='stylesheet' href='style.css')
+
+  script(src='https://code.jquery.com/jquery-3.4.1.min.js')
+  script.
+    function handleForm(){
+    $.ajax({type: 'GET', url: "http://localhost:3445/patient/5cd9250db97e8b5a617078c6", crossDomain:true, success: function(result){
+    $("#resBody").html(JSON.stringify(result,null,4));
+    console.log(result);
+    }});
+    };
+
+// Navbar
+nav.container
+  .nav-wrapper
+    a.brand-logo.right(href='#') Provider App
+    ul#nav-mobile.left.hide-on-med-and-down
+      li
+        a(href='#') Home
+      li
+        a(href='#') About
+
+// Search Patient by ID
+.row.container
+  .col.s12
+    .row
+      .input-field.col.s12
+        input#clientID(type='text')
+        label(for='clientID') Enter Patient ID
+      .col.s4
+        button.btn.waves-effect.waves-light(onclick='handleForm()') Find Patient
+
+        
+
+// Display search results i.e. patient data
+.row.container
+  .col.s6.offset-s3
+    .card-panel.teal
+      span.white-text
+      pre#resBody
+
+
+
+
+// Page footer
+footer.page-footer.container
+  .container
+    .row
+      .col.l6.s12
+        h5.white-text Footer Content
+        p.grey-text.text-lighten-4 You can use rows and columns here to organize your footer content.
+      .col.l4.offset-l2.s12
+        h5.white-text Links
+        ul
+          li
+            a.grey-text.text-lighten-3(href='#!') Help
+          li
+            a.grey-text.text-lighten-3(href='#!') Contact Us
+          li
+            a.grey-text.text-lighten-3(href='#!') Partners
+          li
+            a.grey-text.text-lighten-3(href='#!') Donate
+  .footer-copyright
+    .container
+      | &copy; 2019 Provider Application
