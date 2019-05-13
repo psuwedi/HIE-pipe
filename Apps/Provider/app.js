@@ -1,10 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const provider = require('./routes/provider.routes');
 
 //initialize  express
 const app = express();
+
+//enable CORS
+app.use(cors());
 
 //setup  mongoose
 const mongoose = require('mongoose');
