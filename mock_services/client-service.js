@@ -33,10 +33,28 @@
   };
 
   app = express();
+  var path = require ('path');
+  // app.use(express.static(path.join(__dirname + '.../mock_services/templates')));
+
+  app.set('view engine', 'pug');
+  app.set('views', 'templates');
 
   app.use(express.json());
 
+
   app.get("/patient/:id", patient);
+  // app.get('/',function(req,res) {
+  //   res.sendfile('templates/index.html');
+  // });
+
+  // app.get('/patient/:id', function(req, res) {
+  //   res.render('editblog', { title: 'edit blog', id: req.params.id });
+  // });
+
+  app.get('/', function (req, res) {
+    res.render('index', { data: 'Hello there!' })
+  })
+
 
   server = app.listen(process.env.PORT || 3445, function() {
     return console.log("client-service running on port " + (server.address().port));

@@ -8,7 +8,7 @@ module.exports = function sendMsg(text) {
         apiSecret
     })
 
-    const from = "OpenHIM"
+    const from = "OpenHIE Pipe"
     const to = "265994333331" // You can use any valid phone number here!
     // const text = "{Some aggregate data here...}"
 
