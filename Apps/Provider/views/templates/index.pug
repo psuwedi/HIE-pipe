@@ -9,10 +9,14 @@ head
   link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css')
   link(rel='stylesheet' href='style.css')
 
+  // Compiled and minified JavaScript
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js')
+
   script(src='https://code.jquery.com/jquery-3.4.1.min.js')
   script.
     function handleForm(){
-    $.ajax({type: 'GET', url: "http://localhost:3445/patient/5cd9250db97e8b5a617078c6", crossDomain:true, success: function(result){
+    clientID = $("#clientID").val();
+    $.ajax({type: 'GET', url: "http://localhost:3445/patient/"+clientID, crossDomain:true, success: function(result){
     $("#resBody").html(JSON.stringify(result,null,4));
     console.log(result);
     }});

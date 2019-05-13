@@ -10,7 +10,8 @@ head
   script(src='https://code.jquery.com/jquery-3.4.1.min.js')
   script.
     function handleForm(){
-    $.ajax({method: 'GET', url: "http://localhost:3446/providers/5cd92998aa10915401aa3720", crossDomain:true,headers: {"accept": "application/json","Access-Control-Allow-Origin":"*"}, success: function(result){
+    providerId = $("#providerId").val();
+    $.ajax({method: 'GET', url: "http://localhost:3446/providers/"+providerId, crossDomain:true,headers: {"accept": "application/json","Access-Control-Allow-Origin":"*"}, success: function(result){
     $("#resBody").html(JSON.stringify(result,null,4));
     console.log(result);
     }});
@@ -23,7 +24,7 @@ nav.navbar.navbar-expand-md.navbar-dark.fixed-top.bg-dark
   #navbarsExampleDefault.collapse.navbar-collapse
     ul.navbar-nav.mr-auto
     p.form-inline.my-2.my-lg-0 
-      input.form-control.mr-sm-2(type='text' placeholder='Provider ID' aria-label='Search' name='id')
+      input.form-control.mr-sm-2(type='text' placeholder='Provider ID' aria-label='Search' id='providerId')
       button.btn.btn-outline-success.my-2.my-sm-0(onclick='handleForm()') Search
 main(role='main')
   .container.mt-5
