@@ -6,6 +6,7 @@ const medUtils = require('openhim-mediator-utils')
 const winston = require('winston')
 const needle = require("needle")
 const utils = require('./utils')
+const cors = require('cors')
 
 // Logging setup
 winston.remove(winston.transports.Console)
@@ -26,6 +27,7 @@ var port = process.env.NODE_ENV === 'test' ? 7001 : mediatorConfig.endpoints[0].
 function setupApp () {
   const app = express()
 
+  app.use(cors());
   app.all('encounters/:id', (req, res) => {
 
     //send an HTTP request to the health record service

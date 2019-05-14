@@ -21,6 +21,7 @@
     "Phidelis Suwedi phidelis.suwedi@gmail.com"
   ],
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.13.4",
     "needle": "^2.2.4",
     "openhim-mediator-utils": "^0.2.2",

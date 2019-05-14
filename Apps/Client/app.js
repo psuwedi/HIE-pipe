@@ -9,7 +9,10 @@ const patient = require('./routes/client.routes');
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'views/templates')));
+
+
 app.use(cors());
+
 app.set('view engine', 'pug');
 app.set('views', 'views/templates');
 
