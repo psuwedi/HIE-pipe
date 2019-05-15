@@ -7,6 +7,7 @@ const patient = require('./routes/client.routes');
 
 //initialize  express
 const app = express();
+resolve = require('../../resolve/index');
 
 app.use(express.static(path.join(__dirname, 'views/templates')));
 
@@ -30,6 +31,15 @@ db.on('error', console.error.bind(console, 'Could not connect to MongoDB:'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/patient', patient);
+
+
+  // Handle 5xx errors by send data via SMS
+  app.get('/cs/error500/:id', function(req, res, next) {
+    res.status(500);
+    resolve('http','localhost','3446','error500',req.params.id);
+    res.send('Internal server error...');
+  });
+  
 
 app.get('/', function (req, res) {
     res.render('index')

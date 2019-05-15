@@ -8,8 +8,8 @@ module.exports = function sendMsg(text) {
         apiSecret
     })
 
-    const from = "OpenHIE Pipe"
-    const to = "265994333331" // You can use any valid phone number here!
+    const from = "HIE Pipe"
+    const to = "265991166683" // You can use any valid phone number here!
     // const text = "{Some aggregate data here...}"
 
     nexmo.message.sendSms(from, to, text, (err, responseData) => {

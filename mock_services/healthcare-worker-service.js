@@ -32,13 +32,6 @@
 
   app.get("/providers/:id", provider);
 
-  //Handle 500
-  app.get('/error500/:id', function(req, res, next) {
-    res.status(500);
-    resolve('http','localhost','3446','error500',1);
-    res.send('Internal server error...');
-  });
-  
 
 
   server = app.listen(process.env.PORT || 3446, function() {
